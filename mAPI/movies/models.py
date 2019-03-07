@@ -8,3 +8,6 @@ class Movie(models.Model):
     genre = models.CharField(max_length=65)
     director = models.CharField(max_length=65)
     country = models.CharField(max_length=65)
+
+    def __str__(self):
+        return "{title} ({year})".format(title=self.title, year=self.year)
