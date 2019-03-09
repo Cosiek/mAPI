@@ -1,13 +1,15 @@
 #!/usr/bin/env python
 # coding: utf-8
 
+from django.db import models
 import requests
 from rest_framework import status
+from rest_framework.generics import ListAPIView
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
 from .models import Movie
-from .serializers import MovieSerializer
+from .serializers import MovieSerializer, TopMoviesSerializer
 
 
 class MoviesView(APIView):
@@ -48,3 +50,21 @@ class MoviesView(APIView):
     def tweek_omdbapi_response_data(self, data):
         data['Runtime'] = data['Runtime'].strip(' min')
         return {k.lower(): v for k, v in data.items()}
+
+
+class TopMoviesView(ListAPIView):
+    # TODO: verify this view.
+    serializer_class = TopMoviesSerializer
+
+    def get_queryset(self):
+        qs = Movie.objects.all() \
+            .annotate(
+                total_comments=models.Count('comments'),
+                rank=models.Window(
+                    expression=models.functions.DenseRank(),
+                    order_by=models.F("total_comments").desc()
+                )
+            )\
+            .only('id') \
+            .order_by('rank')
+        return qs

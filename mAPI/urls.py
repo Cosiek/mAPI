@@ -10,5 +10,6 @@ from mAPI.forum import views as forum_views
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('movies', movies_views.MoviesView.as_view()),
+    path('top', movies_views.TopMoviesView.as_view()),
     path('comments', forum_views.CommentsView.as_view()),
 ]
