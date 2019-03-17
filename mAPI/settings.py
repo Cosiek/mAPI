@@ -25,7 +25,7 @@ SECRET_KEY = '!-xj^_vf=3av)kt$-g$h=6o#r27#+5f-3hi)8yhsuataex%(bd'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['mapi']
 
 
 # Application definition
